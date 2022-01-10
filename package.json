@@ -1,0 +1,8 @@
+{
+  "name": "jtax",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "ssh://git@github.com/nasum/jtax.git",
+  "author": "nasum <tomato.wonder.life@gmail.com>",
+  "license": "MIT"
+}
