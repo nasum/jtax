@@ -1,8 +1,21 @@
 {
   "name": "jtax",
   "version": "1.0.0",
-  "main": "index.js",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "repository": "ssh://git@github.com/nasum/jtax.git",
   "author": "nasum <tomato.wonder.life@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "watch": "parcel watch",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "@parcel/packager-ts": "^2.1.1",
+    "@parcel/transformer-typescript-types": "^2.1.1",
+    "parcel": "^2.1.1",
+    "typescript": ">=3.0.0"
+  }
 }
