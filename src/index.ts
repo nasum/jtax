@@ -1,1 +1,5 @@
-export default class JTax {}
+export default class JTax {
+  hello(): string {
+    return "Hello";
+  }
+}
