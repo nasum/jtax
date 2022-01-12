@@ -1,6 +1,11 @@
 import JTax from "..";
 
-test("hello", () => {
-  const jtax = new JTax();
-  expect(jtax.hello()).toBe("Hello");
+describe.each([[500000, 2020]])("toString", (income, year) => {
+  test("output", () => {
+    const jtax = new JTax(income, year);
+    expect(jtax.toString()).toBe(`
+      year   : ${year}
+      income : ${income}
+    `);
+  });
 });
