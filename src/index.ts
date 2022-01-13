@@ -3,11 +3,17 @@ type Expenses = {
   amount: number;
 };
 
+type Deduction = {
+  type: string;
+  amount: number;
+};
+
 export default class JTax {
   private income: number;
   private year: number;
   private lastYearResult?: JTax;
   private expensesList: Expenses[] = [];
+  private deductionList: Deduction[] = [];
 
   constructor(income: number, year: number) {
     this.income = income;
@@ -32,6 +38,18 @@ export default class JTax {
     let total = 0;
     this.expensesList.forEach((expenses) => {
       total += expenses.amount;
+    });
+    return total;
+  }
+
+  addDeduction(deduction: Deduction): void {
+    this.deductionList.push(deduction);
+  }
+
+  get totalDeduction(): number {
+    let total = 0;
+    this.deductionList.forEach((deduction) => {
+      total += deduction.amount;
     });
     return total;
   }

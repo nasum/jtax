@@ -41,3 +41,12 @@ test.each([[500000, 2020, { type: "tax", amount: 100000 }]])(
     expect(jtax.totalExpenses).toBe(100000);
   }
 );
+
+test.each([[500000, 2020, { type: "aoiro", amount: 100000 }]])(
+  "addDeduction",
+  (income, year, deduction) => {
+    const jtax = new JTax(income, year);
+    jtax.addDeduction(deduction);
+    expect(jtax.totalDeduction).toBe(100000);
+  }
+);
