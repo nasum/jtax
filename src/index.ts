@@ -1,7 +1,13 @@
+type Expenses = {
+  type: string;
+  amount: number;
+};
+
 export default class JTax {
   private income: number;
   private year: number;
   private lastYearResult?: JTax;
+  private expensesList: Expenses[] = [];
 
   constructor(income: number, year: number) {
     this.income = income;
@@ -16,6 +22,18 @@ export default class JTax {
         `Unacceptable: this year is ${this.year}, last year is ${lastYearResult.year}`
       );
     }
+  }
+
+  addExpenses(expenses: Expenses): void {
+    this.expensesList.push(expenses);
+  }
+
+  get totalExpenses(): number {
+    let total = 0;
+    this.expensesList.forEach((expenses) => {
+      total += expenses.amount;
+    });
+    return total;
   }
 
   toString(): string {
