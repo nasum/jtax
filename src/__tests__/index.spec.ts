@@ -51,7 +51,35 @@ test.each([[500000, 2020, { type: "aoiro", amount: 100000 }]])(
   }
 );
 
-test.each([[500000, 2020]])("totalIncomeTax: %i", (income, year) => {
-  const jtax = new JTax(income, year);
-  expect(jtax.totalIncomeTax).toBe(25525);
+test.each([[500000, 2020, 25525]])(
+  "totalIncomeTax: %i",
+  (income, year, tax) => {
+    const jtax = new JTax(income, year);
+    expect(jtax.calcIncomeTax()).toBe(tax);
+  }
+);
+
+test.each([
+  [
+    500000,
+    2020,
+    { type: "tax", amount: 100000 },
+    { type: "aoiro", amount: 100000 },
+    300000,
+  ],
+])("calcIncome", (sales, lastYear, expenses, deducation, income) => {
+  const jtax = new JTax(sales, lastYear);
+  jtax.addExpenses(expenses);
+  jtax.addDeduction(deducation);
+  expect(jtax.calcIncome()).toBe(income);
 });
+
+test.each([[500000, 2019, 500000, 2020, 50000]])(
+  "residentTax",
+  (lastYearSales, lastYear, sales, year, tax) => {
+    const lastYearJtax = new JTax(lastYearSales, lastYear);
+    const jtax = new JTax(sales, year);
+    jtax.addLastYearResult(lastYearJtax);
+    expect(jtax.calcResidentTax()).toBe(tax);
+  }
+);

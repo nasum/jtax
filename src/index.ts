@@ -1,4 +1,5 @@
 import { IncomeTax, IncomeTaxDetail } from "./incomeTax";
+import { ResidentTax } from "./residentTax";
 
 type Expenses = {
   type: string;
@@ -16,12 +17,14 @@ export default class JTax {
   private lastYearResult?: JTax;
   private expensesList: Expenses[] = [];
   private deductionList: Deduction[] = [];
-  private incomeTax: IncomeTax;
 
-  constructor(income: number, year: number, incomeTaxDetail?: IncomeTaxDetail) {
+  constructor(income: number, year: number) {
     this.income = income;
     this.year = year;
-    this.incomeTax = new IncomeTax(income, incomeTaxDetail);
+  }
+
+  calcIncome() {
+    return this.income - this.totalExpenses - this.totalDeduction;
   }
 
   addLastYearResult(lastYearResult: JTax): void {
@@ -58,8 +61,17 @@ export default class JTax {
     return total;
   }
 
-  get totalIncomeTax(): number {
-    return this.incomeTax.culcIncomeTax();
+  calcIncomeTax(incomeTaxDetail?: IncomeTaxDetail): number {
+    const taxableIncome =
+      this.income - this.totalExpenses - this.totalDeduction;
+    const incomeTax = new IncomeTax(taxableIncome, incomeTaxDetail);
+    return incomeTax.culcIncomeTax();
+  }
+
+  calcResidentTax(lastYearIncome: number = 0): number {
+    const income = this.lastYearResult?.calcIncome() || lastYearIncome;
+    const residentTax = new ResidentTax(income);
+    return residentTax.calcResidentTax();
   }
 
   toString(): string {
