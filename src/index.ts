@@ -1,5 +1,6 @@
 import { IncomeTax, IncomeTaxDetail } from "./incomeTax";
 import { ResidentTax } from "./residentTax";
+import { NationalHealthInsurance } from "./nationalHealthInsurance";
 
 type Expenses = {
   type: string;
@@ -63,7 +64,10 @@ export default class JTax {
 
   calcIncomeTax(incomeTaxDetail?: IncomeTaxDetail): number {
     const taxableIncome =
-      this.income - this.totalExpenses - this.totalDeduction;
+      this.income -
+      this.totalExpenses -
+      this.totalDeduction -
+      this.calcNationalHealthInsureance(this.lastYearResult?.calcIncome());
     const incomeTax = new IncomeTax(taxableIncome, incomeTaxDetail);
     return incomeTax.culcIncomeTax();
   }
@@ -72,6 +76,17 @@ export default class JTax {
     const income = this.lastYearResult?.calcIncome() || lastYearIncome;
     const residentTax = new ResidentTax(income);
     return residentTax.calcResidentTax();
+  }
+
+  calcNationalHealthInsureance(lastYearIncome: number = 0): number {
+    const income = this.lastYearResult?.calcIncome() || lastYearIncome;
+
+    if (income === 0) {
+      return 0;
+    }
+
+    const nationalHealthInsureance = new NationalHealthInsurance(income);
+    return nationalHealthInsureance.calcAmount();
   }
 
   toString(): string {
