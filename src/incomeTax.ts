@@ -1,3 +1,5 @@
+import { BigNumber } from "bignumber.js";
+
 type IncomeRange = {
   min?: number;
   max?: number;
@@ -105,11 +107,12 @@ export class IncomeTax {
   }
 
   culcIncomeTax(): number {
-    const tax =
-      (this.income * this.incomeTaxDetail.getTaxRate(this.income) -
-        this.incomeTaxDetail.getDeduction(this.income)) *
-      (1 + this.incomeTaxDetail.specialIncomeTax);
+    const income = new BigNumber(this.income);
+    const tax = income
+      .times(new BigNumber(this.incomeTaxDetail.getTaxRate(this.income)))
+      .minus(new BigNumber(this.incomeTaxDetail.getDeduction(this.income)))
+      .times(new BigNumber(1 + this.incomeTaxDetail.specialIncomeTax));
 
-    return Math.floor(tax);
+    return Math.floor(tax.toNumber());
   }
 }

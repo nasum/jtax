@@ -1,7 +1,7 @@
 import { IncomeTax } from "../incomeTax";
 
 describe("default", () => {
-  describe.each([
+  test.each([
     [1950000, 99547],
     [3300000, 237382],
     [6950000, 982712],

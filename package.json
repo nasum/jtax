@@ -22,5 +22,8 @@
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
     "typescript": ">=3.0.0"
+  },
+  "dependencies": {
+    "bignumber.js": "^9.0.2"
   }
 }
